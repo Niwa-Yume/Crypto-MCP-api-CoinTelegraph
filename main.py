@@ -1,9 +1,15 @@
+import sqlite3
 
 #recupération des articles
 import feedparser
 import json
 import ssl
 from bs4 import BeautifulSoup
+
+
+#connexion a la bdd
+conn = sqlite3.connect("articles.db")
+cursor = conn.cursor()
 
 # --- correction erreur SSL ---
 if hasattr(ssl, '_create_unverified_context'):
@@ -66,12 +72,11 @@ genai.configure(api_key=GEMINI_API_KEY)
 
 # On fait la sélection du modèle
 model = genai.GenerativeModel(
-    "gemini-2.5-flash",
+    "gemini-2.0-flash",
     # Cette option force Gemini à répondre DIRECTEMENT en JSON
     generation_config={"response_mime_type": "application/json"}
 )
 
-# --- 2. data ---
 try:
     with open("articles_clean.json", "r", encoding="utf-8") as f:
         articles = json.load(f)
@@ -81,7 +86,7 @@ except FileNotFoundError:
 crypto_scores = defaultdict(int)
 crypto_names = {}
 
-# --- 3. BOUCLE D'ANALYSE ---
+# --- prompt + requete API ---
 for i, article in enumerate(articles):
     print(f"Traitement article {i + 1}/{len(articles)}...")
 
@@ -107,8 +112,10 @@ for i, article in enumerate(articles):
     """
 
     try:
-        # Appel API (input)
+        # Appel API input
         response = model.generate_content(prompt)
+
+        #time.sleep(1.5)#permet de ne pas se faire bloque par un rate limit de chez google
 
         # Gemini output
         data = json.loads(response.text)
@@ -136,7 +143,7 @@ for i, article in enumerate(articles):
     except Exception as e:
         print(f"   ⚠️ Erreur API : {e}")
 
-# --- 4. LEADERBOARD & SAUVEGARDE ---
+# --- leaderboard + ajout du logo  ---
 leaderboard = []
 
 for symbol, count in crypto_scores.items():
@@ -146,7 +153,7 @@ for symbol, count in crypto_scores.items():
         "count": count,
     })
 
-# Tri par popularité
+# Tri par nombre de fois
 leaderboard.sort(key=lambda x: x['count'], reverse=True)
 
 # Ajout du rang
