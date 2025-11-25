@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Bitcoin",
+    "symbol": "BTC",
+    "count": 4,
+    "rank": 1
+  },
+  {
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "count": 2,
+    "rank": 2
+  },
+  {
+    "name": "Monad",
+    "symbol": "MON",
+    "count": 1,
+    "rank": 3
+  },
+  {
+    "name": "Solana",
+    "symbol": "SOL",
+    "count": 1,
+    "rank": 4
+  },
+  {
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "count": 1,
+    "rank": 5
+  }
+]
