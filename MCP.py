@@ -1,5 +1,11 @@
 from fastmcp import FastMCP
 import sqlite3
+from pathlib import Path
+
+
+# Obtenir le répertoire du script
+SCRIPT_DIR = Path(__file__).parent
+DB_PATH = SCRIPT_DIR / "leaderboard.db"
 
 # on créer le serv
 mcp = FastMCP("CryptoLeaderboard")
@@ -8,7 +14,7 @@ mcp = FastMCP("CryptoLeaderboard")
 @mcp.tool()    #définit la fonction comme publique en java
 def lire_classement_crypto(limit: int = 5) -> str:
     try:
-        conn = sqlite3.connect("leaderboard.db") #ouvre la db leaderboard
+        conn = sqlite3.connect(str(DB_PATH))
         cursor = conn.cursor() # sert a exectuer les commandes sql fournit de base
 
         cursor.execute("SELECT rank, name, symbol, count FROM classement ORDER BY rank LIMIT ?", (limit,))
@@ -29,4 +35,4 @@ def lire_classement_crypto(limit: int = 5) -> str:
 
 
 if __name__ == "__main__":
-    mcp.run(transport="http", port=8000) #lance le serveur
+    mcp.run() #lance le serveur
