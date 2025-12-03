@@ -1,9 +1,8 @@
 {
   "mcpServers": {
     "crypto-leaderboard": {
-      "command": "/Users/niwa/PycharmProjects/Crypto-Ai-MCP/.venv/bin/python",
-      "args": ["/Users/niwa/PycharmProjects/Crypto-Ai-MCP/MCP.py"]
+      "command": "uvx",
+      "args": ["--from", "/Users/niwa/PycharmProjects/Crypto-Ai-MCP", "fastmcp", "run", "MCP.py"]
     }
   }
 }
-

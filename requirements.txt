@@ -1,0 +1,11 @@
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+gunicorn==21.2.0
+pydantic==2.10.3
+sqlite3-python==1.0.0
+feedparser==6.0.11
+beautifulsoup4==4.12.3
+python-dotenv==1.0.1
+google-generativeai==0.8.3
+fastmcp==0.5.0
+
